@@ -30,3 +30,10 @@ The trade-off: we use general-category-based rules for combining marks and Hangu
 - Lone surrogates (e.g., a stray `\ud800`) are passed through as single units rather than rejected. JavaScript strings can hold them, and this library treats them as opaque.
 - A leading combining mark (no base before it) forms a single cluster of its own, mirroring what most rendering engines do.
 - CR-LF (`\r\n`) is one cluster per UAX #29 GB3.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
